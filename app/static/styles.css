@@ -1,0 +1,27 @@
+#container {
+    margin: 0px auto;
+    width: 500px;
+    height: 375px;
+}
+#video {
+    width: 500px;
+    height: 375px;
+    background-color: #666;
+    border-radius: 15px;
+}
+
+.hidden{
+    display: none;
+}
+
+#btn{
+    display: block;
+    margin: 15px auto;
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+}
+
+#btn:hover{
+    cursor: pointer;
+}
