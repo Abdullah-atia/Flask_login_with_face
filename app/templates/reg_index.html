@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %}
+    Register Page
+{% endblock %}
+
+{% block content %}
+<style>
+    .center {
+        text-align: center;
+        margin: auto;
+        width: 60%;
+        /* border: 3px solid #73AD21; */
+        /* padding: 10px; */
+    } 
+
+    #mainbutton {
+    position: relative;
+    /* bottom: 10px; */
+    top: 10px;
+    }
+    </style>
+<body>
+    <div class="center">
+    <!-- <script src="{{url_for('static', filename='webcam.min.js')}}"></script> -->
+    <div class="py-3 m-auto " id="my_camera">
+    <script src="{{url_for('static', filename='webcam.min.js')}}"></script></div>
+    <input class="btn btn-primary my-3" id="mainbutton" type="button" onclick="snap()" value="Snap">
+    <div id="results"></div>
+    <form method="POST" enctype="multipart/form-data" id="myForm">
+    <input  class="btn btn-primary my-5" type="button" value="Upload" onclick="upload()"></td>
+
+
+        <!-- <table>
+            <tr>
+                <td><input type="button" value="Upload" onclick="upload()"></td>
+            </tr>
+        </table> -->
+    </form>
+</div>
+</body>
+ <script type="text/javascript" >
+    function ShowCam() {
+    Webcam.set({
+        width: 320,
+        height: 240,
+        image_format: 'jpeg',
+        jpeg_quality: 100
+    });
+    Webcam.attach('#my_camera');
+}
+window.onload= ShowCam;
+
+function snap() {
+    Webcam.snap( function(data_uri) {
+        // display results in page
+        document.getElementById('results').innerHTML = 
+        '<img id="image" src="'+data_uri+'"/>';
+} );      
+}
+
+function upload() {
+    console.log("Uploading...")
+    var image = document.getElementById('image').src;
+    var form = document.getElementById('myForm');
+    var formData = new FormData(form);
+    formData.append("file", image);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "/save_image");
+
+    // check when state changes, 
+    xmlhttp.onreadystatechange = function() {
+
+    if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        // alert(xmlhttp.responseText);
+        console.log(xmlhttp.responseText);
+        window.location.href="login"
+        }
+    }
+
+    xmlhttp.send(formData);
+    console.log(formData.get('file'));
+    console.log(formData.get('userID'));
+}
+ </script> 
+
+
+</html>
+{% endblock %}
